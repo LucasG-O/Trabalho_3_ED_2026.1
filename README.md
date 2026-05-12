@@ -276,35 +276,7 @@ mm.printWaitingPlayers();
 
 ---
 
-# Conceitos aplicados
 
-Este projeto utiliza diversos conceitos fundamentais de Ciência da Computação:
-
-* Programação Orientada a Objetos
-* Arrays estáticos e dinâmicos
-* Ponteiros
-* Recursão
-* Algoritmos de ordenação
-* Complexidade assintótica
-* Manipulação manual de memória
-* Estabilidade em ordenação
-
----
-
-# Possíveis melhorias futuras
-
-Algumas melhorias que poderiam ser implementadas:
-
-* Uso de `std::vector`
-* Smart pointers
-* Matchmaking por regiões
-* Sistema de prioridades
-* Balanceamento mais avançado
-* Busca binária para grupos
-* Persistência em arquivo
-* Concorrência/thread-safe
-
----
 
 # Autor
 
