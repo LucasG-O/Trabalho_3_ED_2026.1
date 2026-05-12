@@ -6,6 +6,8 @@ private:
 
     Player players[MAX_PLAYERS]; // Fila de jogadores esperando para formar grupos
     int size;
+    void merge(Player* left, int leftSize, Player* right, int rightSize);
+    void mergeSort(Player arr[], int n);
 
 public:
 

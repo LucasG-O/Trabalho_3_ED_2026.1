@@ -42,45 +42,79 @@ void Matchmaking::sortByScoreInsertion() {
     }
 }   
 
-void Matchmaking::sortByScoreMerge() {
-    if (this->size <= 1) {
-        return; // Já está ordenado
-    }
-    int mid = this->size / 2;
-    Matchmaking left, right;
+Player* Matchmaking::merge(Player arr1[], int n,
+                           Player arr2[], int m) {
 
-    for (int i = 0; i < mid; i++) {
-        left.insert(this->players[i]);
-    }
-    for (int i = mid; i < this->size; i++) {
-        right.insert(this->players[i]);
-    }
+    Player* merged = new Player[n + m];
 
-    left.sortByScoreMerge();
-    right.sortByScoreMerge();
+    int i = 0;
+    int j = 0;
 
-    // Merge
-    int i = 0, j = 0, k = 0;
-    while (i < left.size && j < right.size) {
-        if (left.players[i].getScore() < right.players[j].getScore() || 
-            (left.players[i].getScore() == right.players[j].getScore() && left.players[i].getTimestamp() < right.players[j].getTimestamp())) {
-            this->players[k] = left.players[i];
-            k++; i++;
+    while (i < n && j < m) {
+
+        bool leftComesFirst =
+            (arr1[i].getScore() < arr2[j].getScore()) ||
+            (arr1[i].getScore() == arr2[j].getScore() && arr1[i].getTimestamp() < arr2[j].getTimestamp());
+
+        if (leftComesFirst) {
+            merged[i + j] = arr1[i];
+            i++;
         } else {
-            this->players[k] = right.players[j];
-            k++; j++;
+            merged[i + j] = arr2[j];
+            j++;
         }
     }
-    while (i < left.size) {
-        this->players[k] = left.players[i];
-        k++; i++;
-    }
-    while (j < right.size) {
-        this->players[k] = right.players[j];
-        k++; j++;
+
+    while (i < n) {
+        merged[i + j] = arr1[i];
+        i++;
     }
 
+    while (j < m) {
+        merged[i + j] = arr2[j];
+        j++;
+    }
+
+    return merged;
 }
+
+Player* Matchmaking::mergeSort(Player arr[], int n) {
+
+    if (n == 1) {
+
+        Player* single = new Player[1];
+
+        single[0] = arr[0];
+
+        return single;
+    }
+
+    int mid = n / 2;
+
+    Player* left = mergeSort(arr, mid);
+    Player* right = mergeSort(arr + mid, n - mid);
+
+    Player* sorted = merge(left, mid, right, n - mid);
+
+    delete[] left;
+    delete[] right;
+    return sorted;
+}
+
+void Matchmaking::sortByScoreMerge() {
+
+    if (this->size <= 1)
+        return;
+
+    Player* sorted = mergeSort(this->players, this->size);
+
+    for (int i = 0; i < this->size; i++) {
+        this->players[i] = sorted[i];
+    }
+
+    delete[] sorted;
+}
+
 
 Player* Matchmaking::formGroup(int groupSize, int delta, int* n){
     if (this->size < groupSize) {
@@ -99,6 +133,13 @@ Player* Matchmaking::formGroup(int groupSize, int delta, int* n){
             Player* group = new Player[groupSize];
             for (int j = 0; j < groupSize; j++) {
                 group[j] = this->players[i + j];
+            }
+            for (int k = last + 1; k < this->size; k++) {
+                this->players[k - groupSize] = this->players[k];
+            }
+            this->size -= groupSize;
+            for (int t = this->size; t < this->size + groupSize; t++) {
+                this->players[t] = Player(); // Limpa as posições restantes
             }
             *n = groupSize;
             return group; // Grupo formado com sucesso
