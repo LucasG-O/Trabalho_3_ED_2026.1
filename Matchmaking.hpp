@@ -4,7 +4,7 @@ class Matchmaking {
 
 private:
 
-    Player players[MAX_PLAYERS];
+    Player players[MAX_PLAYERS]; // Fila de jogadores esperando para formar grupos
     int size;
 
 public:
