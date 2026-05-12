@@ -280,4 +280,7 @@ mm.printWaitingPlayers();
 
 # Autor
 
-Projeto desenvolvido para fins acadêmicos em disciplina de Estruturas de Dados / Programação Orientada a Objetos.
+Projeto desenvolvido para fins acadêmicos em disciplina de Estruturas de Dados. Pelos alunos: 
+
+* Gabriel Bittencourt Dias - C3007780 
+* Lucas Gabriel
