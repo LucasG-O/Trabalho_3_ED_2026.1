@@ -1,3 +1,6 @@
+#ifndef MATCHMAKING_HPP
+#define MATCHMAKING_HPP
+
 #include "Player.hpp"
 #define MAX_PLAYERS 1000
 class Matchmaking {
@@ -6,8 +9,8 @@ private:
 
     Player players[MAX_PLAYERS]; // Fila de jogadores esperando para formar grupos
     int size;
-    void merge(Player* left, int leftSize, Player* right, int rightSize);
-    void mergeSort(Player arr[], int n);
+    Player* merge(Player* left, int leftSize, Player* right, int rightSize);
+    Player* mergeSort(Player arr[], int n);
 
 public:
 
@@ -28,3 +31,4 @@ public:
 
     // Outros métodos auxiliares, se necessário
 };
+#endif

@@ -6,7 +6,13 @@ Player::Player(int id, std::string name, int score, int timestamp) {
     this->score = score;
     this->timestamp = timestamp;
 }
-Player::Player() = default;
+Player::Player(){
+    this->id = -1;       // -1 indica que é um espaço vazio
+    this->name = "";
+    this->score = 0;
+    this->timestamp = 0;
+}
+
 Player::~Player() = default;    
 
 int Player::getId() {

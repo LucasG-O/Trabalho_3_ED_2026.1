@@ -1,3 +1,6 @@
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
+
 #include <string>
 
 
@@ -20,3 +23,4 @@ public:
     int getScore();
     int getTimestamp();
 };
+#endif
