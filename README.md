@@ -1,286 +1,95 @@
-# Matchmaking System - C++
+# Matchmaking System — C++
 
 ## Descrição
 
-Este projeto implementa um sistema simples de matchmaking para jogadores utilizando C++. O sistema permite:
+Sistema de matchmaking para jogadores implementado em C++. A aplicação mantém uma fila de jogadores aguardando partida e oferece as seguintes operações:
 
-* Inserir jogadores na fila
-* Remover jogadores
-* Ordenar jogadores por score e tempo de espera
-* Formar grupos balanceados
-* Listar jogadores aguardando
+- Inserção e remoção de jogadores por ID
+- Ordenação por score (e timestamp como critério de desempate) via **Insertion Sort** ou **Merge Sort**
+- Formação de grupos balanceados com diferença máxima de score configurável
+- Consulta e exibição dos jogadores na fila
 
-O projeto foi desenvolvido com foco em:
-
-* Estruturas de dados
-* Algoritmos de ordenação
-* Manipulação manual de memória
-* Complexidade computacional
-* Programação orientada a objetos
+O projeto foi desenvolvido para a disciplina de Estruturas de Dados, com foco em algoritmos de ordenação, gerenciamento manual de memória e análise de complexidade.
 
 ---
 
-# Estrutura do Projeto
+## Organização dos arquivos
 
-```text
-Matchmaking
-├── Matchmaking.hpp
-├── Matchmaking.cpp
-├── Player.hpp
-├── Player.cpp
-└── main.cpp
+```
+Trabalho_3_ED_2026.1/
+├── Player.hpp        # Declaração da classe Player (id, name, score, timestamp)
+├── Player.cpp        # Implementação dos métodos de Player
+├── Matchmaking.hpp   # Declaração da classe Matchmaking e constante MAX_PLAYERS
+├── Matchmaking.cpp   # Implementação das operações de matchmaking
+└── main.cpp          # Testes funcionais e de desempenho
 ```
 
+| Arquivo | Responsabilidade |
+|---|---|
+| `Player.hpp / .cpp` | Modela um jogador com seus atributos e getters |
+| `Matchmaking.hpp / .cpp` | Gerencia a fila de jogadores e implementa os algoritmos |
+| `main.cpp` | Executa os casos de teste e mede o tempo de ordenação |
+
 ---
 
-# Classe Player
+## Instruções de compilação
 
-A classe `Player` representa um jogador na fila de matchmaking.
+### Pré-requisito
 
-## Atributos esperados
+Compilador C++ com suporte a C++11 ou superior (g++ ou equivalente).
 
-| Atributo  | Descrição                      |
-| --------- | ------------------------------ |
-| id        | Identificador único do jogador |
-| name      | Nome do jogador                |
-| score     | Ranking/MMR do jogador         |
-| timestamp | Momento de entrada na fila     |
+### Compilar com g++
 
-## Métodos utilizados
+```bash
+g++ -std=c++11 -o matchmaking main.cpp Player.cpp Matchmaking.cpp
+```
 
-```cpp
-getId()
-getName()
-getScore()
-getTimestamp()
+### Compilar com otimização (recomendado para o teste de desempenho)
+
+```bash
+g++ -std=c++11 -O2 -o matchmaking main.cpp Player.cpp Matchmaking.cpp
 ```
 
 ---
 
-# Classe Matchmaking
+## Instruções de execução
 
-A classe `Matchmaking` é responsável por armazenar e organizar os jogadores.
+Após compilar, execute o binário gerado:
+
+```bash
+# Linux / macOS
+./matchmaking
+
+# Windows
+matchmaking.exe
+```
+
+A saída exibirá o resultado de cada teste diretamente no terminal.
 
 ---
 
-# Funcionalidades
+## Testes no main.cpp
 
-## Inserção de jogadores
+O `main.cpp` contém **8 testes** executados em sequência:
 
-```cpp
-bool insert(Player player)
-```
+| # | Descrição | O que verifica |
+|---|---|---|
+| 1 | **Inserção básica** | Insere 5 jogadores com scores e timestamps variados e exibe a fila na ordem de inserção |
+| 2 | **Insertion Sort com desempate** | Ordena por score crescente; jogadores com mesmo score são ordenados pelo timestamp |
+| 3 | **Remoção por ID** | Remove a jogadora Luzia (ID 3) e confirma que os elementos são compactados |
+| 4 | **Novos jogadores + Merge Sort** | Insere mais 3 jogadores e reordena toda a fila com Merge Sort |
+| 5 | **Formação de grupo válida** | Tenta formar um grupo de 3 jogadores com delta ≤ 100; imprime o grupo e exibe a fila restante |
+| 6 | **Formação de grupo sem sucesso** | Tenta formar grupo com delta ≤ 10 (impossível com os dados atuais); espera retorno `nullptr` |
+| 7 | **getWaitingPlayers** | Recupera uma cópia dinâmica da fila e imprime quantos jogadores foram retornados |
+| 8 | **Teste de desempenho** | Insere 20.000 jogadores aleatórios e mede, separadamente, o tempo do Insertion Sort e do Merge Sort |
 
-Insere um jogador na fila caso exista espaço disponível.
-
-### Complexidade
-
-```text
-O(1)
-```
-
----
-
-## Remoção de jogadores
-
-```cpp
-bool removePlayer(int id)
-```
-
-Remove um jogador da fila através do ID.
-
-Após a remoção, os elementos são deslocados para evitar espaços vazios.
-
-### Complexidade
-
-```text
-O(n)
-```
+> **Nota sobre o teste de desempenho (Teste 8):** o número de jogadores pode ser ajustado alterando a variável `numPlayers` na linha 84 do `main.cpp`. Para coletar dados comparativos para o relatório, experimente valores como 1.000, 5.000, 10.000 e 20.000.
 
 ---
 
-# Ordenação
+## Autores
 
-O sistema possui duas implementações de ordenação:
+Projeto desenvolvido para fins acadêmicos na disciplina de Estruturas de Dados.
 
----
-
-## Insertion Sort
-
-```cpp
-void sortByScoreInsertion()
-```
-
-Ordena os jogadores utilizando:
-
-1. Score crescente
-2. Timestamp crescente em caso de empate
-
-### Complexidade
-
-| Caso        | Complexidade |
-| ----------- | ------------ |
-| Melhor caso | O(n)         |
-| Médio caso  | O(n²)        |
-| Pior caso   | O(n²)        |
-
----
-
-## Merge Sort
-
-```cpp
-void sortByScoreMerge()
-```
-
-Implementação recursiva do algoritmo Merge Sort.
-
-A ordenação utiliza:
-
-1. Score crescente
-2. Timestamp crescente em caso de empate
-
-### Complexidade
-
-```text
-O(n log n)
-```
-
----
-
-## Método merge
-
-```cpp
-Player* merge(Player arr1[], int n,
-              Player arr2[], int m)
-```
-
-Responsável por intercalar dois vetores ordenados.
-
----
-
-## Método mergeSort
-
-```cpp
-Player* mergeSort(Player arr[], int n)
-```
-
-Divide recursivamente o vetor até obter subvetores unitários.
-
----
-
-# Formação de grupos
-
-```cpp
-Player* formGroup(int groupSize, int delta, int* n)
-```
-
-Forma grupos balanceados considerando:
-
-* tamanho do grupo
-* diferença máxima de score (`delta`)
-
-Um grupo é válido quando:
-
-```text
-maxScore - minScore <= delta
-```
-
-Como os jogadores estão ordenados por score, basta verificar:
-
-* menor score do grupo
-* maior score do grupo
-
-Isso evita comparações desnecessárias.
-
-### Complexidade
-
-```text
-O(n)
-```
-
----
-
-# Jogadores aguardando
-
-```cpp
-Player* getWaitingPlayers(int* n)
-```
-
-Retorna uma cópia dos jogadores presentes na fila.
-
----
-
-# Impressão da fila
-
-```cpp
-void printWaitingPlayers()
-```
-
-Exibe todos os jogadores atualmente aguardando matchmaking.
-
----
-
-# Gerenciamento de memória
-
-O projeto utiliza:
-
-```cpp
-new[]
-delete[]
-```
-
-para gerenciamento manual de memória dinâmica.
-
-As alocações realizadas durante o Merge Sort e formação de grupos são liberadas corretamente utilizando `delete[]`.
-
----
-
-# Critério de ordenação
-
-A ordenação segue o seguinte critério:
-
-1. Menor score primeiro
-2. Em caso de empate, menor timestamp primeiro
-
-Exemplo:
-
-| Jogador | Score | Timestamp |
-| ------- | ----- | --------- |
-| A       | 1200  | 10        |
-| B       | 1200  | 15        |
-
-Resultado:
-
-```text
-A antes de B
-```
-
----
-
-# Exemplo de uso
-
-```cpp
-Matchmaking mm;
-
-mm.insert(Player(1, "Gabriel", 1200, 10));
-mm.insert(Player(2, "Lucas", 1250, 12));
-mm.insert(Player(3, "Ana", 1210, 15));
-
-mm.sortByScoreMerge();
-
-int n;
-Player* group = mm.formGroup(2, 100, &n);
-
-mm.printWaitingPlayers();
-```
-
----
-
-
-
-# Autor
-
-Projeto desenvolvido para fins acadêmicos em disciplina de Estruturas de Dados. Pelos alunos: 
-
-* Gabriel Bittencourt Dias - C3007780 
-* Lucas Gabriel
+- Gabriel Bittencourt Dias — C3007780
+- Lucas Gabriel

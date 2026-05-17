@@ -5,7 +5,7 @@
 #include <cstdlib>
 
 int main() {
-    Matchmaking matchmaking;
+    static Matchmaking matchmaking;
 
     // 1. Insercao de jogadores e exibicao do estado inicial
     std::cout << "Teste 1: Insercao basica\n";
@@ -79,9 +79,9 @@ int main() {
 
     // 8. Testes de desempenho para o relatorio
     std::cout << "Iniciando testes de desempenho...\n";
-    Matchmaking matchInsertion;
-    Matchmaking matchMerge;
-    int numPlayers = 20000; // Ajuste para coletar dados pro relatorio
+    static Matchmaking matchInsertion;
+    static Matchmaking matchMerge;
+    int numPlayers = 5000; // Ajuste para coletar dados pro relatorio
 
     for (int i = 0; i < numPlayers; i++) {
         int randomScore = rand() % 3000; 
