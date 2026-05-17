@@ -90,6 +90,5 @@ O `main.cpp` contém **8 testes** executados em sequência:
 ## Autores
 
 Projeto desenvolvido para fins acadêmicos na disciplina de Estruturas de Dados.
-
-- Gabriel Bittencourt Dias — C3007780
+- Gabriel Bittencourt Dias
 - Lucas Gabriel
