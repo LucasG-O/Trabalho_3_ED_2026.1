@@ -81,7 +81,7 @@ int main() {
     std::cout << "Iniciando testes de desempenho...\n";
     static Matchmaking matchInsertion;
     static Matchmaking matchMerge;
-    int numPlayers = 5000; // Ajuste para coletar dados pro relatorio
+    int numPlayers = 20000; // Ajuste para coletar dados pro relatorio
 
     for (int i = 0; i < numPlayers; i++) {
         int randomScore = rand() % 3000; 
