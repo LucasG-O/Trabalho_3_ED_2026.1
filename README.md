@@ -44,10 +44,10 @@ Compilador C++ com suporte a C++11 ou superior (g++ ou equivalente).
 g++ -std=c++11 -o matchmaking main.cpp Player.cpp Matchmaking.cpp
 ```
 
-### Compilar com otimização (recomendado para o teste de desempenho)
+### Compilar
 
 ```bash
-g++ -std=c++11 -O2 -o matchmaking main.cpp Player.cpp Matchmaking.cpp
+g++ main.cpp Matchmaking.cpp Player.cpp -o matchmaking
 ```
 
 ---
