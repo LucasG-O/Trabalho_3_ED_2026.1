@@ -2,7 +2,7 @@
 #define MATCHMAKING_HPP
 
 #include "Player.hpp"
-#define MAX_PLAYERS 1000
+#define MAX_PLAYERS 100000
 class Matchmaking {
 
 private:
