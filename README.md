@@ -41,12 +41,6 @@ Compilador C++ com suporte a C++11 ou superior (g++ ou equivalente).
 ### Compilar com g++
 
 ```bash
-g++ -std=c++11 -o matchmaking main.cpp Player.cpp Matchmaking.cpp
-```
-
-### Compilar
-
-```bash
 g++ main.cpp Matchmaking.cpp Player.cpp -o matchmaking
 ```
 
